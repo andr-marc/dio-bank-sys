@@ -24,3 +24,19 @@ Os valores devem ser exibidos utilizando o formato R$ xxx.xx, exemplo:
 ```
 1500.45 = R$ 1500.45
 ```
+
+## Segunda parte
+
+Atualizar depósito, saque e extrato para serem feito de uma forma modular, usando funções
+
+### Saque
+
+A função saque deve receber os argumentos apenas por nome.
+
+### Depósito
+
+A função depósito deve receber os argumentos apenas por posição.
+
+### Extrato
+
+A função extrato deve receber os argumentos por posição e nome.

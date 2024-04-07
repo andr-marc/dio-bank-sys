@@ -1,8 +1,13 @@
+import funcoes as fn
+import contas as ct
+
 menu = """
 
 [d] Depositar
 [s] Sacar
 [e] Extrato
+[u] Cadastrar usuário
+[c] Cadastrar conta corrente
 [q] Sair
 
 => """
@@ -13,62 +18,34 @@ extrato = ""
 numero_saques = 0
 LIMITE_SAQUES = 3
 
+usuarios = []
+contas = []
+AGENCIA = "0001"
+
 while True:
     opcao = input(menu)
-
     if opcao.lower() == "d":
         print("Depósito")
-
         valor = input("Quanto o valor a ser depositado? ")
+        saldo, extrato = fn.deposito(saldo, valor, extrato)
         
-        try:
-            valor = float(valor)
-            saldo += valor
-
-            extrato += f"[d] Depósito de R$ {valor:.2f}\n"
-
-            print(f"Depósito no valor de R$ {valor:.2f} realizado com sucesso!")
-
-        except:
-            print("Valor digitado é inválido, operação cancelada.")
-
     elif opcao.lower() == "s":
         print("Saque")
+        valor = input("Quanto o valor a ser sacado? ")
+        saldo, extrato = fn.saque(saldo=saldo, valor=valor, extrato=extrato, numero_saques=numero_saques, limite_saques=LIMITE_SAQUES, limite=limite)
 
-        if numero_saques < LIMITE_SAQUES:
-            valor = input("Quanto o valor a ser sacado? ")
-
-            try:
-                valor = float(valor)
-
-                if saldo >= valor and valor <= limite:
-                    saldo -= valor
-                    numero_saques += 1
-
-                    extrato += f"[s] Saque de R$ {valor:.2f}\n"
-
-                    print(f"Saque no valor de R$ {valor:.2f} realizado com sucesso!")
-                else: 
-                    if saldo <= valor:
-                        print("[!] Saldo insuficiente para efetuar o saque.")
-
-                    if valor >= limite:
-                        print(f"[!] Valor excede o limite de R$ {limite:.2f} para cada saque.")
-
-            except:
-                print("Valor digitado é inválido. Operação cancelada.")
-
-        else:
-            print("[!] Limite de saques diário já excedido. Tente novamente amanhã.")
-
-    
     elif opcao.lower() == "e":
         print("Extrato")
+        fn.tirar_extrato(saldo, extrato=extrato)
 
-        print(extrato)
+    elif opcao.lower() == "u":
+        print("Cadastrar novo usuário")
+        usuarios.append(ct.cadastrar_usuario(usuarios=usuarios))
 
-        print(f"Saldo em conta: R$ {saldo:.2f}")
-
+    elif opcao.lower() == "c":
+        print("Cadastrar nova conta corrente")
+        contas.append(ct.cadastrar_conta(usuarios=usuarios, agencia=AGENCIA, contas=contas))
+       
     elif opcao.lower() == "q":
         break
 
